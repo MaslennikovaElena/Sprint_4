@@ -1,18 +1,10 @@
 import allure
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
 
+from locators.main_page_locators import MainPageLocators
 from pages.base_page import BasePage
 
 
-class MainPage(BasePage):
-    QUESTION = [By.XPATH, "//div[@data-accordion-component='AccordionItemButton'][text()='{message}']"]
-    ANSWER_BOX = [By.XPATH, f"{QUESTION}/parent::div/parent::div/div[@data-accordion-component='AccordionItemPanel']"]
-    ANSWER = [By.XPATH, "//p[text()='{message}']/parent::div"]
-
-    MENU_ORDER_BTN = [By.XPATH, "//div[@id='root']/div/div/div/div/button[text()='Заказать']"]
-    BODY_ORDER_BTN = [By.XPATH, "//div[@id='root']/div/div/div/div/div/button[text()='Заказать']"]
-    ORDER_PAGE_HEADER = [By.XPATH, "//div[text()='Для кого самокат']"]
+class MainPage(BasePage, MainPageLocators):
 
     @allure.step('Переход к заказу по кнопке в меню')
     def go_order_by_menu(self):

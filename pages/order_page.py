@@ -1,41 +1,11 @@
 import allure
-from selenium.webdriver.common.by import By
 
+from locators.order_page_locators import OrderPageLocators
 from pages.base_page import BasePage
 
 
-class OrderPage(BasePage):
+class OrderPage(BasePage, OrderPageLocators):
     page_url = "https://qa-scooter.praktikum-services.ru/order"
-
-    ORDER_PAGE_HEADER = [By.XPATH, "//div[text()='Для кого самокат']"]
-
-    MAIN_PAGE_BADGE = [By.XPATH, "//img[@alt='Scooter']/parent::a"]
-    MAIN_PAGE_HEADER = [By.XPATH, "//div/br/parent::div/div/br"]
-
-    YANDEX_BADGE = [By.XPATH, "//img[@alt='Yandex']/parent::a"]
-    YANDEX_PAGE_HEADER = [By.XPATH, "//a[@aria-label='Логотип Дзен']"]
-
-    MENU_ORDER_BTN = [By.XPATH, "//div[@id='root']/div/div/div/div/button[text()='Заказать']"]
-    BODY_ORDER_BTN = [By.XPATH, "//div[@id='root']/div/div/div/div/div/button[text()='Заказать']"]
-
-    INPUT_NAME = [By.XPATH, "//input[@type='text'][@placeholder='* Имя']"]
-    INPUT_FAMILY = [By.XPATH, "//input[@type='text'][@placeholder='* Фамилия']"]
-    INPUT_ADDRESS = [By.XPATH, "//input[@type='text'][@placeholder='* Адрес: куда привезти заказ']"]
-    INPUT_PHONE = [By.XPATH, "//input[@type='text'][@placeholder='* Телефон: на него позвонит курьер']"]
-    INPUT_METRO = [By.XPATH, "//input[@placeholder='* Станция метро']"]
-    INPUT_DATE = [By.XPATH, "//input[@placeholder='* Когда привезти самокат']"]
-    CALENDAR_DATE = [By.XPATH, "//button[text()='Previous Month']/parent::div//div[text()='{date}']"]
-    INPUT_RENT = [By.XPATH, "//div[text()='* Срок аренды']"]
-    RENT_OPTION = [By.XPATH, "//div[@role='option'][text()='{days}']"]
-    INPUT_COLOR_BLACK = [By.XPATH, "//label[@for='black']"]
-    INPUT_COLOR_GRAY = [By.XPATH, "//label[@for='gray']"]
-    INPUT_COMMENT = [By.XPATH, "//input[@type='text'][@placeholder='Комментарий для курьера']"]
-
-    METRO_STATION = [By.XPATH, "//div[text()='{station}']/parent::button"]
-    FIRST_PAGE_SUBMIT_BTN = [By.XPATH, "//button[text()='Далее']"]
-    SECOND_PAGE_SUBMIT_BTN = [By.XPATH, "//div[text()='Про аренду']/parent::div//button[text()='Заказать']"]
-
-    APPROVE_RENT_BTN = [By.XPATH, "//div[text()='Хотите оформить заказ?']/parent::div//button[text()='Да']"]
 
     @allure.step('Проверяем является ли страница Главной')
     def check_is_main_page(self):
@@ -125,23 +95,39 @@ class OrderPage(BasePage):
         element.send_keys(text)
 
     @allure.step('Заполнение первой страницы формы')
-    def fill_form_first_page(self):
-        self.fill_name("Елена")
-        self.fill_family("Масленникова")
-        self.fill_address("Кустанайская 5")
-        self.fill_phone("+79998887766")
-        self.fill_metro("Красногвардейская")
+    def fill_form_first_page(
+            self,
+            name,
+            family,
+            address,
+            phone,
+            metro,
+    ):
+        self.fill_name(name)
+        self.fill_family(family)
+        self.fill_address(address)
+        self.fill_phone(phone)
+        self.fill_metro(metro)
 
     @allure.step('Переход ко второй части формы')
     def submit_form_first_page(self):
         self.find(self.FIRST_PAGE_SUBMIT_BTN).click()
 
     @allure.step('Заполнение второй страницы формы')
-    def fill_form_second_page(self):
-        self.fill_date("11")
-        self.fill_rent(2)
-        self.add_color_black()
-        self.fill_comment("Тащить без лифта на 13 этаж")
+    def fill_form_second_page(
+            self,
+            date,
+            rent,
+            is_black,
+            comment,
+    ):
+        self.fill_date(date)
+        self.fill_rent(rent)
+        if is_black:
+            self.add_color_black()
+        else:
+            self.add_color_gray()
+        self.fill_comment(comment)
 
     @allure.step('Завершение заполнения формы')
     def submit_form_second_page(self):

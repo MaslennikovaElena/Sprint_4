@@ -1,17 +1,15 @@
 import allure
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
+from locators.base_page_locators import BasePageLocators
 
-class BasePage:
+
+class BasePage(BasePageLocators):
     driver: WebDriver = ...
     page_url = "https://qa-scooter.praktikum-services.ru/"
-
-    BODY = [By.TAG_NAME, "body"]
-    ACCEPT_COOKIES_BTN = [By.XPATH, "//button[text()='да все привыкли']"]
 
     def __init__(self, driver):
         self.driver = driver
