@@ -34,7 +34,7 @@ class OrderPageLocators:
     """Шаблон локатора для поиска заданной строчки срока аренды"""
     INPUT_COLOR_BLACK = [By.XPATH, "//label[@for='black']"]
     """Локатор выбирающий строчку с Черным цветом самоката"""
-    INPUT_COLOR_GRAY = [By.XPATH, "//label[@for='gray']"]
+    INPUT_COLOR_GRAY = [By.XPATH, "//label[@for='grey']"]
     """Локатор выбирающий строчку с Серым цветом самоката"""
     INPUT_COMMENT = [By.XPATH, "//input[@type='text'][@placeholder='Комментарий для курьера']"]
     """Поле ввода комментария"""
