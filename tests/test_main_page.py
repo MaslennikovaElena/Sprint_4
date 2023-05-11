@@ -1,9 +1,10 @@
+import allure
 import pytest
 
 from pages.main_page import MainPage
 
 
-@pytest.mark.parametrize("question, answer",[
+@pytest.mark.parametrize("question, answer", [
     pytest.param(
         "Сколько это стоит? И как оплатить?",
         "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
@@ -49,11 +50,17 @@ from pages.main_page import MainPage
         id="regional",
     ),
 ])
+@allure.title('Проверка что нажатие на вопрос ({question}) раскроет текст ответа ({answer})')
+@allure.description('Прокручиваем страницу полностью вниз, затем находи элемент соответсвующий вопросу, '
+                    'и нажимаем на него, после чего проверяем что текст раскрывшегося элемента '
+                    'соответствует ожидаемомум ответу')
 def test_main_page_question_open_with_valid_text(web_driver, question, answer):
     page = MainPage(web_driver)
     page.check_question(question, answer)
 
 
+@allure.title('Проверка что нкнопка перехода к заказу в меню работает')
+@allure.description('Нажатие кнопки перехода к заказу в меню, и проверка что она ведет на искомую страницу')
 def test_main_page_to_order_page_by_menu_btn_success(web_driver):
     page = MainPage(web_driver)
     page.open()
@@ -61,6 +68,8 @@ def test_main_page_to_order_page_by_menu_btn_success(web_driver):
     page.check_is_order_page()
 
 
+@allure.title('Проверка что нкнопка перехода к заказу в теле страницы работает')
+@allure.description('Нажатие кнопки перехода к заказу в теле страницы, и проверка что она ведет на искомую страницу')
 def test_main_page_to_order_page_by_body_btn_success(web_driver):
     page = MainPage(web_driver)
     page.open()
